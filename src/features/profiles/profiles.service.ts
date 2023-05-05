@@ -2,7 +2,7 @@ import type { Category } from "~/features/categories/types";
 import { sleep } from "~/utils/sleep";
 
 export async function getCategory(id: string) {
-  await sleep(250);
+  await sleep(85);
 
   const details: Category = {
     id,

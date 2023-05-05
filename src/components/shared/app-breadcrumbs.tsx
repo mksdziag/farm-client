@@ -7,15 +7,15 @@ interface BreadcrumbsProps {
   items: BreadcrumbItem[];
 }
 
-export const AppBreadcrumbs = component$((props: BreadcrumbsProps) => {
+export const AppBreadcrumbs = component$(({ items = [] }: BreadcrumbsProps) => {
   function isLast(index: number) {
-    return index === props.items.length - 1;
+    return index === items.length - 1;
   }
 
   return (
     <div class="text-sm breadcrumbs py-0 mb-2">
       <ul>
-        {props.items.map((item, index) => (
+        {items.map((item, index) => (
           <li key={item.text} class={`${isLast(index) ? "text-gray-400" : ""}`}>
             <Link href={item.path}>
               {item.icon && item.icon}

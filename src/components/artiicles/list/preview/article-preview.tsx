@@ -12,16 +12,21 @@ export function ArticlePreview(props: ArticlePreviewProps) {
     <div class="flex flex-col  border shadow-sm mb-4 rounded-md md:flex-row">
       <figure class="h-full w-96 max-w-full p-0">
         <Link class="block h-full w-full" href={`/artykuly/${props.item.id}`}>
-          <img class="block h-full w-full" src={props.item.cover} alt="Album" />
+          <img
+            loading="lazy"
+            class="block h-full w-full"
+            src={props.item.cover}
+            alt="Album"
+          />
         </Link>
       </figure>
-      <div class="p-4">
+      <div class="p-4 flex flex-col w-full">
         <Link href={`/artykuly/${props.item.id}`}>
           <AppTitle text={props.item.title} />
         </Link>
         <p>{trimTextByWords(props.item.body, 20)}</p>
 
-        <ul>
+        <ul class="mb-5">
           {props.item.tagList.map((tag) => (
             <li key={tag} class="inline">
               <Link class="inline" href={`/tagi/${tag}`}>
@@ -31,10 +36,10 @@ export function ArticlePreview(props: ArticlePreviewProps) {
           ))}
         </ul>
 
-        <div class="card-actions justify-end mt-5">
-          <button class="btn btn-success btn-sm">+1</button>
-          <button class="btn btn-error btn-sm">-1</button>
-          <button class="btn btn-primary btn-sm">Share</button>
+        <div class="flex justify-end mt-auto w-full">
+          <button class="btn btn-success btn-sm mr-1">+1</button>
+          <button class="btn btn-error btn-sm mr-1">-1</button>
+          <button class="btn btn-primary btn-sm mr-1">Share</button>
           <button class="btn btn-primary btn-sm">Save for later</button>
         </div>
       </div>

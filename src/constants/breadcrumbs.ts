@@ -18,7 +18,7 @@ export const breadcrumbsConfig: BreadcrumbsConfig[] = [
     text: "Strona główna",
     children: [
       {
-        path: "/artykuły",
+        path: "/artykuly",
         text: "Artykuły",
         children: [
           {
@@ -76,6 +76,10 @@ export const breadcrumbsConfig: BreadcrumbsConfig[] = [
             path: "/o-projekcie",
           },
         ],
+      },
+      {
+        path: "/account",
+        text: "Moje Konto",
       },
     ],
   },

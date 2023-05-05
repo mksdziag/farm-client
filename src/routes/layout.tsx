@@ -22,10 +22,10 @@ export default component$(() => {
         <AppHeader user={null} logout={logout} />
         <AppContainer>
           <div class="grid grid-cols-12 gap-4 p-2">
-            <div class="col-span-12 md:col-span-2 ">
+            <div class="col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-2">
               <AppSidebar />
             </div>
-            <div class="col-span-12 md:col-span-10">
+            <div class="col-span-12 md:col-span-9 lg:col-span-9 xl:col-span-10">
               <AppContent>
                 <Slot />
               </AppContent>

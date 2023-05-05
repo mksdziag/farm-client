@@ -6,11 +6,12 @@ const lorem: string =
 
 const articles: Article[] = [
   {
-    id: "1",
+    id: "rozrywka",
     title: "Article 1",
     description: lorem,
     body: lorem,
     tagList: ["tag1", "tag2"],
+    categories: ["rozrywka", "newsy"],
     cover:
       "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80",
   },
@@ -20,15 +21,17 @@ const articles: Article[] = [
     description: lorem,
     body: lorem,
     tagList: ["tag1", "tag2"],
+    categories: ["rozrywka", "polityka", "ciekawostki"],
     cover:
       "https://media.istockphoto.com/id/496700224/fr/photo/filles-de-prendre-une-photo-de-mer-avec-une-cam%C3%A9ra-de-cin%C3%A9ma.jpg?s=170667a&w=0&k=20&c=GIuucvYmgFIO4MIwKP5q4q9K2FCgZKN9kJq9bydghJ4=",
   },
   {
-    id: "1",
+    id: "rozrywka",
     title: "Article 1",
     description: lorem,
     body: lorem,
     tagList: ["tag1", "tag2"],
+    categories: ["rozrywka", "sport", "newsy"],
     cover:
       "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80",
   },
@@ -38,15 +41,17 @@ const articles: Article[] = [
     description: lorem,
     body: lorem,
     tagList: ["tag1", "tag2"],
+    categories: ["rozrywka", "sport", "geopolityka"],
     cover:
       "https://media.istockphoto.com/id/496700224/fr/photo/filles-de-prendre-une-photo-de-mer-avec-une-cam%C3%A9ra-de-cin%C3%A9ma.jpg?s=170667a&w=0&k=20&c=GIuucvYmgFIO4MIwKP5q4q9K2FCgZKN9kJq9bydghJ4=",
   },
   {
-    id: "1",
+    id: "rozrywka",
     title: "Article 1",
     description: lorem,
     body: lorem,
     tagList: ["tag1", "tag2"],
+    categories: ["rozrywka", "sport", "newsy"],
     cover:
       "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80",
   },
@@ -56,15 +61,17 @@ const articles: Article[] = [
     description: lorem,
     body: lorem,
     tagList: ["tag1", "tag2"],
+    categories: ["rozrywka", "2", "3"],
     cover:
       "https://media.istockphoto.com/id/496700224/fr/photo/filles-de-prendre-une-photo-de-mer-avec-une-cam%C3%A9ra-de-cin%C3%A9ma.jpg?s=170667a&w=0&k=20&c=GIuucvYmgFIO4MIwKP5q4q9K2FCgZKN9kJq9bydghJ4=",
   },
   {
-    id: "1",
+    id: "rozrywka",
     title: "Article 1",
     description: lorem,
     body: lorem,
     tagList: ["tag1", "tag2"],
+    categories: ["rozrywka", "kultura", "ciekawostki"],
     cover:
       "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80",
   },
@@ -74,27 +81,30 @@ const articles: Article[] = [
     description: lorem,
     body: lorem,
     tagList: ["tag1", "tag2"],
+    categories: ["rozrywka", "kultura", "ciekawostki"],
     cover:
       "https://media.istockphoto.com/id/496700224/fr/photo/filles-de-prendre-une-photo-de-mer-avec-une-cam%C3%A9ra-de-cin%C3%A9ma.jpg?s=170667a&w=0&k=20&c=GIuucvYmgFIO4MIwKP5q4q9K2FCgZKN9kJq9bydghJ4=",
   },
 ];
-async function getArticles(
-  _categoryId: string | undefined = "all",
-  limit = 20
-) {
-  await sleep(250);
+async function getArticles(categoryId: string | undefined = "all", limit = 20) {
+  await sleep(85);
 
-  return articles.slice(0, limit);
+  const filtered =
+    categoryId === "all"
+      ? articles
+      : articles.filter((article) => article.categories.includes(categoryId));
+
+  return filtered.slice(0, limit);
 }
 
 async function getArticlesByTag(_tag: string, _limit = 20) {
-  await sleep(250);
+  await sleep(85);
 
   return articles;
 }
 
 async function getArticle(id: string) {
-  await sleep(250);
+  await sleep(85);
 
   return articles.find((article) => article.id === id);
 }

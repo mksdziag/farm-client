@@ -2,26 +2,63 @@ import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import { ArticleList } from "~/components/artiicles/list/article-list";
+import { AppBreadcrumbs } from "~/components/shared/app-breadcrumbs";
 import { AppPageTitle } from "~/components/shared/app-page-title";
+import { getBreadcrumbs } from "~/constants/breadcrumbs";
 import { articlesService } from "~/features/articles/articles.service";
+import { categoriesService } from "~/features/categories/categories.service";
 
-export const useCategoryPageData = routeLoader$(async () => {
-  const [articles] = await Promise.all([
-    articlesService.getArticles("cat", 15),
+export const useCategoryPageData = routeLoader$(async (e) => {
+  const categoryId = e.params.id;
+
+  const [category, articles] = await Promise.all([
+    categoriesService.getCategory(categoryId),
+    articlesService.getArticles(categoryId ?? "all", 15),
   ]);
 
+  if (!category) {
+    throw e.redirect(302, "/kategorie");
+  }
+
   return {
+    category,
     articles,
   };
 });
 
 export default component$(() => {
   const pageData = useCategoryPageData();
+  const breadcrumbs = getBreadcrumbs("/kategorie");
+
   return (
     <div>
-      <AppPageTitle text="Wpisy w kategorii" />
+      <AppBreadcrumbs items={breadcrumbs} />
+      <AppPageTitle
+        text={`Wpisy w kategorii: ${pageData.value.category?.name ?? "---"}`}
+      />
 
-      <ArticleList items={pageData.value.articles} />
+      {pageData.value.articles.length ? (
+        <ArticleList items={pageData.value.articles} />
+      ) : (
+        <div class="alert shadow-sm">
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="stroke-info flex-shrink-0 w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <span>Brak wpisów w tej kategorii</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 });

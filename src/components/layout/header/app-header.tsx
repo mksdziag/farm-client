@@ -20,19 +20,21 @@ export const AppHeader = component$((_props: AppHeaderProps) => {
             class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Homepage</a>
+              <Link href="/profile">Mój profil</Link>
             </li>
             <li>
-              <a>Portfolio</a>
+              <Link href="/account">Moje konto</Link>
             </li>
             <li>
-              <a>About</a>
+              <Link href="/pages/regulamin">Regulamin</Link>
             </li>
           </ul>
         </div>
       </div>
       <div class="navbar-center">
-        <a class="btn btn-ghost normal-case text-xl">Farmero</a>
+        <Link href="/" class="btn btn-ghost normal-case text-xl">
+          Farmero
+        </Link>
       </div>
       <div class="navbar-end">
         <button class="btn btn-ghost btn-circle">

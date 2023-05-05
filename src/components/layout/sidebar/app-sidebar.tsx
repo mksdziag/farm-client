@@ -25,7 +25,7 @@ function MenuListItem(props: { item: MenuItem }) {
 }
 
 const menuItems: MenuItem[] = [
-  { url: "/", text: "Home", iconUrl: "/icons/home.svg" },
+  { url: "/kategorie", text: "Wszystkie wpisy", iconUrl: "/icons/home.svg" },
   {
     url: "/kategorie/rozrywka",
     text: "Rozrywka",
@@ -49,11 +49,6 @@ const menuItems: MenuItem[] = [
   },
   { url: "/kategorie/newsy", text: "Newsy", iconUrl: "/icons/home.svg" },
   { url: "/kategorie/kultura", text: "Kultura", iconUrl: "/icons/home.svg" },
-  {
-    url: "/kategorie/influencerzy",
-    text: "Influencerzy",
-    iconUrl: "/icons/home.svg",
-  },
 ];
 
 export const AppSidebar = component$(() => {

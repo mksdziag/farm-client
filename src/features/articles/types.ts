@@ -5,4 +5,5 @@ export interface Article {
   body: string;
   tagList: string[];
   cover: string;
+  categories: string[];
 }

@@ -3,7 +3,7 @@ import { sleep } from "~/utils/sleep";
 import type { PageData } from "./types";
 
 async function getPage(id: string) {
-  await sleep(250);
+  await sleep(85);
 
   const details: PageData = {
     id: id,
