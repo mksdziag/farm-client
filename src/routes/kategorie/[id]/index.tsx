@@ -3,37 +3,35 @@ import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import { ArticleList } from "~/components/artiicles/list/article-list";
 import { AppPageTitle } from "~/components/shared/app-page-title";
-import { AppSection } from "~/components/shared/app-section";
 import { articlesService } from "~/features/articles/articles.service";
 
-export const useHomePageData = routeLoader$(async () => {
-  const [recentArticles] = await Promise.all([
-    articlesService.getArticles("all", 6),
+export const useCategoryPageData = routeLoader$(async () => {
+  const [articles] = await Promise.all([
+    articlesService.getArticles("cat", 15),
   ]);
 
   return {
-    articles: recentArticles,
+    articles,
   };
 });
 
 export default component$(() => {
-  const pageData = useHomePageData();
+  const pageData = useCategoryPageData();
   return (
-    <>
-      <AppSection>
-        <AppPageTitle text="Najnowsze wpisy" classes="mb-5" />
-        <ArticleList items={pageData.value.articles} />
-      </AppSection>
-    </>
+    <div>
+      <AppPageTitle text="Wpisy w kategorii" />
+
+      <ArticleList items={pageData.value.articles} />
+    </div>
   );
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: "Wpisy w kategorii",
   meta: [
     {
       name: "description",
-      content: "Qwik site description",
+      content: "Wpisy w kategorii",
     },
   ],
 };
