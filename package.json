@@ -20,7 +20,7 @@
     "preview": "qwik build preview && vite preview --open",
     "serve": "node server/entry.express",
     "start": "vite --open --mode ssr",
-    "start.production": "pm2 start pnpm --name \"farm-client\" -- serve",
+    "start.production": "pm2-runtime start pnpm --name \"farm-client\" -- serve",
     "qwik": "qwik"
   },
   "devDependencies": {
