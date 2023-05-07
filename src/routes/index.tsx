@@ -7,10 +7,8 @@ import { AppSection } from "~/components/shared/app-section";
 import { articlesService } from "~/features/articles/articles.service";
 
 export const useHomePageData = routeLoader$(async () => {
-  const [articlesResponse] = await Promise.all([
-    articlesService.getArticles("all", 6),
-  ]);
-  console.log(articlesResponse);
+  const [articlesResponse] = await Promise.all([articlesService.getArticles("all", 6)]);
+
   return {
     articles: articlesResponse.data,
   };
