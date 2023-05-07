@@ -18,7 +18,7 @@ export const ArticleFull = component$(({ item }: { item: Article }) => {
         </figure>
 
         <div class="mt-4 max-w-4xl">
-          <p>{item.body}</p>
+          <p>{item.content}</p>
         </div>
       </div>
     </div>

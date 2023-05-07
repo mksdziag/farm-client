@@ -8,12 +8,11 @@ import { getBreadcrumbs } from "~/constants/breadcrumbs";
 import { articlesService } from "~/features/articles/articles.service";
 
 export const useCategoriesPageData = routeLoader$(async () => {
-  const [articles] = await Promise.all([
+  const [articlesResponse] = await Promise.all([
     articlesService.getArticles("all", 15),
   ]);
-
   return {
-    articles,
+    articles: articlesResponse.data,
   };
 });
 

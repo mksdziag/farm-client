@@ -11,7 +11,7 @@ import { categoriesService } from "~/features/categories/categories.service";
 export const useCategoryPageData = routeLoader$(async (e) => {
   const categoryId = e.params.id;
 
-  const [category, articles] = await Promise.all([
+  const [category, articlesResponse] = await Promise.all([
     categoriesService.getCategory(categoryId),
     articlesService.getArticles(categoryId ?? "all", 15),
   ]);
@@ -22,7 +22,7 @@ export const useCategoryPageData = routeLoader$(async (e) => {
 
   return {
     category,
-    articles,
+    articles: articlesResponse.data,
   };
 });
 

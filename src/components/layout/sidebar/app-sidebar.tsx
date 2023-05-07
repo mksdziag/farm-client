@@ -47,7 +47,7 @@ const menuItems: MenuItem[] = [
     text: "Geopolityka",
     iconUrl: "/icons/home.svg",
   },
-  { url: "/kategorie/newsy", text: "Newsy", iconUrl: "/icons/home.svg" },
+  { url: "/kategorie/news", text: "Newsy", iconUrl: "/icons/home.svg" },
   { url: "/kategorie/kultura", text: "Kultura", iconUrl: "/icons/home.svg" },
 ];
 

@@ -8,22 +8,21 @@ import { articlesService } from "~/features/articles/articles.service";
 
 export const useArticlePageData = routeLoader$(
   async (e: RequestEventLoader) => {
-    const [article] = await Promise.all([
+    const [articleResponse] = await Promise.all([
       articlesService.getArticle(e.params.id),
     ]);
 
-    if (!article) {
+    if (!articleResponse.data) {
       throw e.redirect(302, "/404");
     }
 
     return {
-      article: article,
+      article: articleResponse.data,
     };
   }
 );
 
 export default component$(() => {
-  console.log();
   const pageData = useArticlePageData();
   const breadcrumbs = getBreadcrumbs("/artykuly/:id", false, {
     path: "/artykuly/" + pageData.value.article?.id,
@@ -46,7 +45,7 @@ export default component$(() => {
         </figure>
 
         <div class="mt-4 max-w-4xl">
-          <p>{pageData.value.article?.body}</p>
+          <p>{pageData.value.article?.content}</p>
         </div>
       </div>
     </div>

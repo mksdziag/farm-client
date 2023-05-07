@@ -24,10 +24,10 @@ export function ArticlePreview(props: ArticlePreviewProps) {
         <Link href={`/artykuly/${props.item.id}`}>
           <AppTitle text={props.item.title} />
         </Link>
-        <p>{trimTextByWords(props.item.body, 20)}</p>
+        <p>{trimTextByWords(props.item.content, 20)}</p>
 
         <ul class="mb-5">
-          {props.item.tagList.map((tag) => (
+          {props.item.tags.map((tag) => (
             <li key={tag} class="inline">
               <Link class="inline" href={`/tagi/${tag}`}>
                 <span class="badge badge-ghost mr-1">{tag}</span>

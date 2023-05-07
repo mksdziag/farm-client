@@ -46,6 +46,8 @@
     "vite-tsconfig-paths": "4.2.0"
   },
   "dependencies": {
-    "daisyui": "^2.51.6"
+    "axios": "^1.4.0",
+    "daisyui": "^2.51.6",
+    "ky": "^0.33.3"
   }
 }

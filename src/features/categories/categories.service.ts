@@ -27,7 +27,7 @@ const categories: Category[] = [
     name: "Kultura",
   },
   {
-    id: "newsy",
+    id: "news",
     name: "Newsy",
   },
 ];
