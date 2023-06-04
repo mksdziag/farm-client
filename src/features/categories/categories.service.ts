@@ -1,45 +1,74 @@
 import type { Category } from "~/features/categories/types";
-import { sleep } from "~/utils/sleep";
+import { httpClient } from "~/http/client";
+import { mapToApiError } from "~/http/helpers";
+import type { ApiError, ApiResponse } from "~/http/types";
 
-const categories: Category[] = [
-  {
-    id: "rozrywka",
-    name: "Rozrywka",
-  },
-  {
-    id: "polityka",
-    name: "Polityka",
-  },
-  {
-    id: "ciekawostki",
-    name: "Ciekawostki",
-  },
-  {
-    id: "sport",
-    name: "Sport",
-  },
-  {
-    id: "geopolityka",
-    name: "Geopolityka",
-  },
-  {
-    id: "kultura",
-    name: "Kultura",
-  },
-  {
-    id: "news",
-    name: "Newsy",
-  },
-];
+async function getCategoryById(id: string): Promise<ApiResponse<Category | null>> {
+  let data: Category | null = null;
+  let error: ApiError | null = null;
 
-export async function getCategory(id: string) {
-  await sleep(85);
+  try {
+    data = await httpClient.get(`categories/${id}`).json<Category | null>();
+  } catch (err: any) {
+    error = mapToApiError(err);
+  }
 
-  const details = categories.find((category) => category.id === id) ?? null;
+  return {
+    data,
+    error,
+  };
+}
+async function getCategoryByKey(key: string): Promise<ApiResponse<Category | null>> {
+  let data: Category | null = null;
+  let error: ApiError | null = null;
 
-  return details;
+  try {
+    data = await httpClient.get(`categories/key/${key}`).json<Category | null>();
+  } catch (err: any) {
+    error = mapToApiError(err);
+  }
+
+  return {
+    data,
+    error,
+  };
+}
+
+async function getCategories(): Promise<ApiResponse<Category[]>> {
+  let data: Category[] = [];
+  let error: ApiError | null = null;
+
+  try {
+    data = await httpClient.get(`categories`).json<Category[]>();
+  } catch (err: any) {
+    error = mapToApiError(err);
+  }
+
+  return {
+    data,
+    error,
+  };
+}
+
+async function createCategory(payload: Omit<Category, "id">): Promise<ApiResponse<Category>> {
+  let data: Category | null = null;
+  let error: ApiError | null = null;
+
+  try {
+    data = await httpClient.post(`categories`, { json: payload }).json<Category>();
+  } catch (err: any) {
+    error = mapToApiError(err);
+  }
+
+  return {
+    data,
+    error,
+  };
 }
 
 export const categoriesService = {
-  getCategory,
+  getCategories,
+  getCategoryById,
+  getCategoryByKey,
+  createCategory,
 };

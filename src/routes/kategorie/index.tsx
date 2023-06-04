@@ -7,10 +7,13 @@ import { AppPageTitle } from "~/components/shared/app-page-title";
 import { getBreadcrumbs } from "~/constants/breadcrumbs";
 import { articlesService } from "~/features/articles/articles.service";
 
-export const useCategoriesPageData = routeLoader$(async () => {
-  const [articlesResponse] = await Promise.all([
-    articlesService.getArticles("all", 15),
-  ]);
+export const useCategoriesPageData = routeLoader$(async (e) => {
+  const [articlesResponse] = await Promise.all([articlesService.getArticles({ _limit: 12 })]);
+
+  if (!articlesResponse || articlesResponse.error) {
+    throw e.redirect(302, "/");
+  }
+
   return {
     articles: articlesResponse.data,
   };

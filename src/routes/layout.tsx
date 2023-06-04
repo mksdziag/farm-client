@@ -5,17 +5,28 @@ import { AppFooter } from "~/components/layout/footer/app-footer";
 import { AppHeader } from "~/components/layout/header/app-header";
 import { AppSidebar } from "~/components/layout/sidebar/app-sidebar";
 import { AppContainer } from "~/components/shared/app-container";
+import { categoriesService } from "~/features/categories/categories.service";
 
-export const useServerTimeLoader = routeLoader$(() => {
+export const useCategories = routeLoader$(async () => {
+  const res = await categoriesService.getCategories();
+
   return {
-    date: new Date().toISOString(),
+    categories: res.data,
   };
 });
 
 export default component$(() => {
+  const categoriesData = useCategories();
+  const menuItems = categoriesData.value?.categories.map((category) => ({
+    url: `/kategorie/${category.key}`,
+    text: category.name,
+    iconUrl: "/icons/home.svg",
+  }));
+
   const logout = $(() => {
     console.log("logout");
   });
+
   return (
     <>
       <div class="min-h-screen flex flex-col">
@@ -23,7 +34,7 @@ export default component$(() => {
         <AppContainer>
           <div class="grid grid-cols-12 gap-4 p-2">
             <div class="col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-2">
-              <AppSidebar />
+              <AppSidebar items={menuItems} />
             </div>
             <div class="col-span-12 md:col-span-9 lg:col-span-9 xl:col-span-10">
               <AppContent>

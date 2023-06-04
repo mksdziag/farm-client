@@ -9,19 +9,19 @@ import { articlesService } from "~/features/articles/articles.service";
 import { categoriesService } from "~/features/categories/categories.service";
 
 export const useCategoryPageData = routeLoader$(async (e) => {
-  const categoryId = e.params.id;
+  const key = e.params.key;
 
-  const [category, articlesResponse] = await Promise.all([
-    categoriesService.getCategory(categoryId),
-    articlesService.getArticles(categoryId ?? "all", 15),
+  const [categoryResponse, articlesResponse] = await Promise.all([
+    categoriesService.getCategoryByKey(key),
+    articlesService.getArticlesByCategoryKey({ categoryKey: key }),
   ]);
 
-  if (!category) {
+  if (!categoryResponse || categoryResponse.error) {
     throw e.redirect(302, "/kategorie");
   }
 
   return {
-    category,
+    category: categoryResponse.data,
     articles: articlesResponse.data,
   };
 });
@@ -33,9 +33,7 @@ export default component$(() => {
   return (
     <div>
       <AppBreadcrumbs items={breadcrumbs} />
-      <AppPageTitle
-        text={`Wpisy w kategorii: ${pageData.value.category?.name ?? "---"}`}
-      />
+      <AppPageTitle text={`Wpisy w kategorii: ${pageData.value.category?.name ?? "---"}`} />
 
       {pageData.value.articles.length ? (
         <ArticleList items={pageData.value.articles} />

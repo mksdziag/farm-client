@@ -24,38 +24,11 @@ function MenuListItem(props: { item: MenuItem }) {
   );
 }
 
-const menuItems: MenuItem[] = [
-  { url: "/kategorie", text: "Wszystkie wpisy", iconUrl: "/icons/home.svg" },
-  {
-    url: "/kategorie/rozrywka",
-    text: "Rozrywka",
-    iconUrl: "/icons/home.svg",
-  },
-  {
-    url: "/kategorie/ciekawostki",
-    text: "Ciekawostki",
-    iconUrl: "/icons/home.svg",
-  },
-  { url: "/kategorie/sport", text: "Sport", iconUrl: "/icons/home.svg" },
-  {
-    url: "/kategorie/polityka",
-    text: "Polityka",
-    iconUrl: "/icons/home.svg",
-  },
-  {
-    url: "/kategorie/geopolityka",
-    text: "Geopolityka",
-    iconUrl: "/icons/home.svg",
-  },
-  { url: "/kategorie/news", text: "Newsy", iconUrl: "/icons/home.svg" },
-  { url: "/kategorie/kultura", text: "Kultura", iconUrl: "/icons/home.svg" },
-];
-
-export const AppSidebar = component$(() => {
+export const AppSidebar = component$(({ items = [] }: { items: MenuItem[] }) => {
   return (
     <div class="flex justify-center border border-gray-200 rounded-box">
       <ul class="menu bg-base-100 w-full rounded-box">
-        {menuItems.map((item) => (
+        {items.map((item) => (
           <MenuListItem key={item.url} item={item} />
         ))}
       </ul>
