@@ -98,6 +98,40 @@ async function createArticle(
     error,
   };
 }
+async function updateArticle(
+  id: string,
+  payload: Omit<Article, "id" | "tags" | "categories">,
+): Promise<ApiResponse<Article | null>> {
+  let data: Article | null = null;
+  let error: ApiError | null = null;
+
+  try {
+    data = await httpClient.patch(`articles/${id}`, { json: payload }).json<Article>();
+  } catch (err: any) {
+    error = mapToApiError(err);
+  }
+
+  return {
+    data,
+    error,
+  };
+}
+
+async function removeArticle(id: string) {
+  let data: null = null;
+  let error: ApiError | null = null;
+
+  try {
+    data = await httpClient.delete(`articles/${id}`).json<null>();
+  } catch (err: any) {
+    error = mapToApiError(err);
+  }
+
+  return {
+    data,
+    error,
+  };
+}
 
 export const articlesService = {
   getArticles,
@@ -106,4 +140,6 @@ export const articlesService = {
   getArticlesByTag,
   getArticle,
   createArticle,
+  updateArticle,
+  removeArticle,
 };

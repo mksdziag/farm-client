@@ -1,7 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$ } from "@builder.io/qwik-city";
-import { ArticleList } from "~/components/artiicles/list/article-list";
+import { ArticleList } from "~/components/features/articles/list/article-list";
 import { AppBreadcrumbs } from "~/components/shared/app-breadcrumbs";
 import { AppPageTitle } from "~/components/shared/app-page-title";
 import { getBreadcrumbs } from "~/constants/breadcrumbs";
@@ -28,7 +28,7 @@ export default component$(() => {
       <AppBreadcrumbs items={breadcrumbs} />
       <AppPageTitle text="Wszystkie kategorie" />
 
-      <ArticleList items={pageData.value.articles} />
+      <ArticleList items={pageData.value.articles ?? []} />
     </div>
   );
 });

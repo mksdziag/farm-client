@@ -1,5 +1,4 @@
 import type { Article } from "~/features/articles/types";
-
 import { ArticlePreview } from "./preview/article-preview";
 import { component$ } from "@builder.io/qwik";
 

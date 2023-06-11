@@ -1,22 +1,24 @@
-import type { QRL } from "@builder.io/qwik";
+import type { QRL, QwikSubmitEvent } from "@builder.io/qwik";
 import { useSignal } from "@builder.io/qwik";
-import { $, component$ } from "@builder.io/qwik";
+import { component$ } from "@builder.io/qwik";
 import { AppInput } from "~/components/shared/form/app-input";
 import z from "zod";
-import type { SubmitHandler } from "@modular-forms/qwik";
 import { useForm, zodForm$ } from "@modular-forms/qwik";
 import { AppButton } from "~/components/shared/buttons/app-button";
-import { categoriesService } from "~/features/categories/categories.service";
 
 const categorySchema = z.object({
-  name: z.string().min(3),
-  description: z.string().min(3),
-  key: z.string().min(3),
+  name: z.string().trim().min(3),
+  description: z.string().trim().min(3),
+  key: z.string().trim().min(3),
 });
 
 type CategoryForm = z.infer<typeof categorySchema>;
 
-export const CreateCategoryForm = component$(() => {
+interface CreateCategoryFormProps {
+  onSubmit: QRL<(values: CategoryForm, event: QwikSubmitEvent<HTMLFormElement>) => Promise<void>>;
+}
+
+export const CreateCategoryForm = component$((props: CreateCategoryFormProps) => {
   const [categoryForm, { Form, Field }] = useForm<CategoryForm>({
     loader: useSignal<CategoryForm>({
       name: "",
@@ -26,21 +28,16 @@ export const CreateCategoryForm = component$(() => {
     validate: zodForm$(categorySchema),
   });
 
-  const handleFormSubmit: QRL<SubmitHandler<CategoryForm>> = $((values, _event) => {
-    const res = categoriesService.createCategory(values);
-    console.log(res);
-  });
-
   return (
-    <Form onSubmit$={handleFormSubmit}>
+    <Form onSubmit$={props.onSubmit}>
       <Field name="name">
         {(field, props) => {
           return (
             <AppInput
               {...props}
-              value={field.value}
-              label="name"
-              placeholder="name"
+              value={field.value ?? ""}
+              label="Nazwa"
+              placeholder="Nazwa"
               type="text"
               name="name"
               id="name"
@@ -54,9 +51,9 @@ export const CreateCategoryForm = component$(() => {
           return (
             <AppInput
               {...props}
-              value={field.value}
-              label="Description"
-              placeholder="Description"
+              value={field.value ?? ""}
+              label="Opis"
+              placeholder="Opis"
               type="text"
               name="description"
               id="description"
@@ -70,9 +67,9 @@ export const CreateCategoryForm = component$(() => {
           return (
             <AppInput
               {...props}
-              value={field.value}
-              label="key"
-              placeholder="key of the the category"
+              value={field.value ?? ""}
+              label="Klucz"
+              placeholder="Unikalny klucz"
               type="text"
               name="key"
               id="key"
@@ -81,8 +78,9 @@ export const CreateCategoryForm = component$(() => {
           );
         }}
       </Field>
-      <AppButton type="submit" disabled={categoryForm.invalid}>
-        Submit
+
+      <AppButton type="submit" classes="mt-4" disabled={categoryForm.invalid}>
+        Zapisz
       </AppButton>
     </Form>
   );

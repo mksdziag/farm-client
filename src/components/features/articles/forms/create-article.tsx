@@ -1,53 +1,46 @@
-import type { QRL } from "@builder.io/qwik";
+import type { QRL, QwikSubmitEvent } from "@builder.io/qwik";
 import { useSignal } from "@builder.io/qwik";
-import { $, component$ } from "@builder.io/qwik";
+import { component$ } from "@builder.io/qwik";
 import { AppInput } from "~/components/shared/form/app-input";
 import z from "zod";
-
-import type { SubmitHandler } from "@modular-forms/qwik";
 import { useForm, zodForm$ } from "@modular-forms/qwik";
 import { AppButton } from "~/components/shared/buttons/app-button";
-import { articlesService } from "~/features/articles/articles.service";
 
 const articleFormSchema = z.object({
-  title: z.string().min(3),
-  description: z.string().min(3),
-  content: z.string().min(3),
-  cover: z.string(),
+  title: z.string().trim().min(3),
+  description: z.string().trim().min(3),
+  content: z.string().trim().min(3),
+  cover: z.string().trim().url(),
 });
 
 type ArticleForm = z.infer<typeof articleFormSchema>;
 
-export const CreateArticleForm = component$(() => {
+interface ArticleFormProps {
+  initialValues?: ArticleForm;
+  onSubmit: QRL<(values: ArticleForm, event: QwikSubmitEvent<HTMLFormElement>) => Promise<void>>;
+}
+
+export const CreateArticleForm = component$((props: ArticleFormProps) => {
   const [articleForm, { Form, Field }] = useForm<ArticleForm>({
     loader: useSignal<ArticleForm>({
-      title: "",
-      description: "",
-      content: "",
-      cover: "",
+      title: props.initialValues?.title ?? "",
+      description: props.initialValues?.description ?? "",
+      content: props.initialValues?.content ?? "",
+      cover: props.initialValues?.cover ?? "",
     }),
     validate: zodForm$(articleFormSchema),
   });
 
-  const handleFormSubmit: QRL<SubmitHandler<ArticleForm>> = $((values, event) => {
-    console.log(articleForm.internal);
-    console.log(values);
-    console.log(event);
-
-    const res = articlesService.createArticle(values);
-    console.log(res);
-  });
-
   return (
-    <Form onSubmit$={handleFormSubmit}>
+    <Form onSubmit$={props.onSubmit}>
       <Field name="title">
         {(field, props) => {
           return (
             <AppInput
               {...props}
-              value={field.value}
-              label="Title"
-              placeholder="Title"
+              value={field.value ?? ""}
+              label="Tytuł"
+              placeholder="Tytuł"
               type="text"
               name="title"
               id="title"
@@ -61,9 +54,9 @@ export const CreateArticleForm = component$(() => {
           return (
             <AppInput
               {...props}
-              value={field.value}
-              label="Description"
-              placeholder="Description"
+              value={field.value ?? ""}
+              label="Opis"
+              placeholder="Opis"
               type="text"
               name="description"
               id="description"
@@ -77,9 +70,9 @@ export const CreateArticleForm = component$(() => {
           return (
             <AppInput
               {...props}
-              value={field.value}
-              label="Content"
-              placeholder="Content of the article"
+              value={field.value ?? ""}
+              label="Zawartość"
+              placeholder="Zawartość artykułu"
               type="text"
               name="content"
               id="content"
@@ -93,9 +86,9 @@ export const CreateArticleForm = component$(() => {
           return (
             <AppInput
               {...props}
-              value={field.value}
-              label="Cover"
-              placeholder="cover of the article"
+              value={field.value ?? ""}
+              label="Okładka"
+              placeholder="Link do zasobu online"
               type="text"
               name="cover"
               id="cover"
@@ -104,8 +97,9 @@ export const CreateArticleForm = component$(() => {
           );
         }}
       </Field>
-      <AppButton type="submit" disabled={articleForm.invalid}>
-        Submit
+
+      <AppButton type="submit" classes="mt-4" disabled={articleForm.invalid}>
+        Zapisz
       </AppButton>
     </Form>
   );
